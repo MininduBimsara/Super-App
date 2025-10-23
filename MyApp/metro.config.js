@@ -1,9 +1,10 @@
 /**
- * Metro configuration for React Native + Expo + NativeWind
- * Works with Expo SDK 54
+ * Metro configuration for React Native + Expo + NativeWind v4
+ * Compatible with Expo SDK 54
  */
 
 const { getDefaultConfig } = require("expo/metro-config");
-const { withNativeWind } = require("nativewind/metro");
 
-module.exports = withNativeWind(getDefaultConfig(__dirname));
+const config = getDefaultConfig(__dirname);
+
+module.exports = config;
