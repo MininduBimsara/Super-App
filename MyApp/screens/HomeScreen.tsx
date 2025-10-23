@@ -72,8 +72,8 @@ const heritageSites = [
 
 const emergencyServices = [
   { id: "1", name: "Police", number: "119", icon: "shield" },
-  { id: "2", name: "Ambulance", number: "1990", icon: "ambulance" },
-  { id: "3", name: "Fire", number: "110", icon: "fire" },
+  { id: "2", name: "Ambulance", number: "1990", icon: "activity" }, // Changed from "ambulance"
+  { id: "3", name: "Fire", number: "110", icon: "alert-circle" }, // Changed from "fire"
   { id: "4", name: "Tourist Help", number: "1912", icon: "help-circle" },
 ];
 
@@ -98,15 +98,16 @@ export default function HomeScreen() {
             className="h-64"
             resizeMode="cover"
           >
-            <View className="absolute inset-0 bg-navy/80" />
+            {/* Navy background overlay - using hex color instead of custom class */}
+            <View className=" absolute inset-0 bg-[#0A1128]/80" />
 
             {/* Header Content */}
             <View className="justify-between flex-1 p-6 pt-12">
               {/* Top Bar */}
               <View className="flex-row items-center justify-between">
                 <View>
-                  <Text className="text-sm text-light-gold">Welcome to</Text>
-                  <Text className="text-3xl font-bold text-gold">
+                  <Text className="text-sm text-[#FFF8DC]">Welcome to</Text>
+                  <Text className="text-3xl font-bold text-[#FFD700]">
                     Sri Lanka
                   </Text>
                 </View>
@@ -128,7 +129,7 @@ export default function HomeScreen() {
         </View>
 
         {/* --- QUICK ACTIONS GRID --- */}
-        <View className="px-6 -mt-8">
+        <View className="px-6 pt-10 -mt-8">
           <View className="p-5 bg-white shadow-lg rounded-3xl">
             <View className="flex-row flex-wrap justify-between">
               {quickActions.map((action) => (
@@ -167,7 +168,9 @@ export default function HomeScreen() {
               Top Destinations
             </Text>
             <TouchableOpacity>
-              <Text className="text-base font-semibold text-gold">See All</Text>
+              <Text className="text-base font-semibold text-[#FFD700]">
+                See All
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -223,26 +226,26 @@ export default function HomeScreen() {
 
         {/* --- RIDE BOOKING SECTION --- */}
         <View className="px-6 mt-8">
-          <View className="p-6 rounded-3xl bg-gold">
+          <View className="p-6 rounded-3xl bg-[#FFD700]">
             <View className="flex-row items-center justify-between mb-4">
               <View className="flex-1">
-                <Text className="text-xl font-bold text-navy">
+                <Text className="text-xl font-bold text-[#0A1128]">
                   Need a Ride?
                 </Text>
-                <Text className="mt-1 text-sm text-navy/80">
+                <Text className="mt-1 text-sm text-[#0A1128]/80">
                   Book a tuk-tuk or taxi instantly
                 </Text>
               </View>
-              <View className="items-center justify-center w-16 h-16 rounded-2xl bg-navy/10">
+              <View className="items-center justify-center w-16 h-16 rounded-2xl bg-[#0A1128]/10">
                 <MaterialCommunityIcons name="car" size={32} color="#0A1128" />
               </View>
             </View>
 
             <TouchableOpacity
-              className="flex-row items-center justify-center py-4 bg-navy rounded-2xl"
+              className="flex-row items-center justify-center py-4 bg-[#0A1128] rounded-2xl"
               activeOpacity={0.8}
             >
-              <Text className="text-base font-bold text-gold">
+              <Text className="text-base font-bold text-[#FFD700]">
                 Book with PickMe
               </Text>
               <Feather
