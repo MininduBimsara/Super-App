@@ -1,5 +1,4 @@
-import "react-native-reanimated";
-import "./global.css"; // Import NativeWind global styles
+import "./global.css";
 import HomeScreen from "./screens/HomeScreen";
 
 export default function App() {

@@ -1,277 +1,312 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   ScrollView,
   ImageBackground,
   TouchableOpacity,
-  FlatList,
   StatusBar,
-} from 'react-native';
-import { styled } from 'nativewind';
-import { Feather, Ionicons } from '@expo/vector-icons'; // Using expo icons
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-  withSequence,
-} from 'react-native-reanimated';
-
-// --- Styled Components for NativeWind ---
-// This allows us to use Tailwind classes on components like ImageBackground
-const StyledImageBackground = styled(ImageBackground);
-const StyledTouchableOpacity = styled(TouchableOpacity);
-const AnimatedView = styled(Animated.View);
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // --- Dummy Data ---
+const quickActions = [
+  {
+    id: "1",
+    title: "Book Ride",
+    subtitle: "Tuk-Tuk & Taxi",
+    icon: "car",
+    color: "#FFD700",
+    bgColor: "#FFF4CC",
+  },
+  {
+    id: "2",
+    title: "Explore",
+    subtitle: "Heritage Sites",
+    icon: "castle",
+    color: "#FF6B6B",
+    bgColor: "#FFE5E5",
+  },
+  {
+    id: "3",
+    title: "Emergency",
+    subtitle: "Quick Help",
+    icon: "shield-check",
+    color: "#4ECDC4",
+    bgColor: "#E0F7F6",
+  },
+  {
+    id: "4",
+    title: "Hotels",
+    subtitle: "Book Stay",
+    icon: "bed",
+    color: "#A78BFA",
+    bgColor: "#F3F0FF",
+  },
+];
 
-// NOTE: Update these image paths to match your assets folder
 const heritageSites = [
   {
-    id: '1',
-    name: 'Sigiriya Rock Fortress',
-    image: require('../assets/images/sigiriya.jpg'), // Placeholder
-    description: 'Ancient royal citadel & UNESCO site',
+    id: "1",
+    name: "Sigiriya",
+    location: "Central Province",
+    rating: 4.8,
+    image: require("../assets/images/sigiriya.jpg"),
   },
   {
-    id: '2',
-    name: 'Temple of the Tooth',
-    image: require('../assets/images/kandy.jpg'), // Placeholder
-    description: 'Sacred Buddhist relic site in Kandy',
+    id: "2",
+    name: "Temple of Tooth",
+    location: "Kandy",
+    rating: 4.9,
+    image: require("../assets/images/kandy.jpg"),
   },
   {
-    id: '3',
-    name: 'Galle Fort',
-    image: require('../assets/images/galle.jpg'), // Placeholder
-    description: 'Historic coastal fortress with colonial charm',
+    id: "3",
+    name: "Galle Fort",
+    location: "Southern Province",
+    rating: 4.7,
+    image: require("../assets/images/galle.jpg"),
   },
 ];
 
-const emergencyContacts = [
-  {
-    id: '1',
-    name: 'Tourist Police',
-    detail: 'Dial 119',
-    icon: 'shield',
-  },
-  {
-    id: '2',
-    name: 'Hospitals',
-    detail: 'Find Nearby',
-    icon: 'hospital-symbol', // Using Ionicons for this one
-  },
-  {
-    id: '3',
-    name: 'Ambulance',
-    detail: 'Dial 1990',
-    icon: 'activity',
-  },
-  {
-    id: '4',
-    name: 'Emergency Hotlines',
-    detail: 'View All',
-    icon: 'phone-call',
-  },
+const emergencyServices = [
+  { id: "1", name: "Police", number: "119", icon: "shield" },
+  { id: "2", name: "Ambulance", number: "1990", icon: "ambulance" },
+  { id: "3", name: "Fire", number: "110", icon: "fire" },
+  { id: "4", name: "Tourist Help", number: "1912", icon: "help-circle" },
 ];
 
-// --- Glowing Button Component ---
-// A reusable component for your signature glowing gold button
-const GlowingButton = ({ title, onPress }: { title: string; onPress: () => void }) => {
-  const scale = useSharedValue(1);
-  const shadowOpacity = useSharedValue(0);
-
-  // Create a gentle pulsing glow animation
-  React.useEffect(() => {
-    scale.value = withRepeat(
-      withSequence(
-        withTiming(1.05, { duration: 1500 }),
-        withTiming(1, { duration: 1500 })
-      ),
-      -1, // Repeat indefinitely
-      true // Reverse animation
-    );
-    shadowOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.7, { duration: 1500 }),
-        withTiming(0.3, { duration: 1500 })
-      ),
-      -1,
-      true
-    );
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-      shadowColor: '#FFD700',
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: shadowOpacity.value,
-      shadowRadius: 15,
-      elevation: 10, // for Android
-    };
-  });
-
-  return (
-    <AnimatedView style={animatedStyle}>
-      <StyledTouchableOpacity
-        className="items-center justify-center px-8 py-4 rounded-lg bg-gold"
-        onPress={onPress}
-        activeOpacity={0.8}
-      >
-        <Text className="text-base font-bold tracking-wider uppercase text-navy">
-          {title}
-        </Text>
-      </StyledTouchableOpacity>
-    </AnimatedView>
-  );
-};
-
-// --- Main Home Screen Component ---
 export default function HomeScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-navy">
-      <StatusBar barStyle="light-content" />
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
 
-      {/* --- Main Background Pattern --- */}
-      <StyledImageBackground
-        source={require('../assets/images/ceylon-pattern.jpg')} // Your pattern
-        resizeMode="cover"
+      <ScrollView
         className="flex-1"
+        showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        {/* Dark Overlay for Readability */}
-        <View className="flex-1 bg-navy/80">
-          <ScrollView contentContainerStyle={{ paddingBottom: 32 }}>
-            
-            {/* --- 1. HERO SECTION --- */}
-            <View className="h-[40vh] min-h-[300px] justify-center items-center p-6 space-y-4">
-              <Text className="text-5xl font-bold text-center text-gold" style={{ textShadowColor: 'rgba(255, 215, 0, 0.5)', textShadowRadius: 10 }}>
-                Discover Sri Lanka
-              </Text>
-              <Text className="w-3/4 text-lg text-center text-light-gold">
-                Culture, Comfort, and Care — All in One App
-              </Text>
-              <View className="flex-row justify-center mt-4 gap-x-4">
-                <StyledTouchableOpacity
-                  className="px-5 py-2 border-2 rounded-full border-gold"
-                  activeOpacity={0.7}
-                >
-                  <Text className="font-semibold text-gold">Explore Culture</Text>
-                </StyledTouchableOpacity>
-                <StyledTouchableOpacity
-                  className="px-6 py-2 rounded-full bg-gold"
-                  activeOpacity={0.7}
-                >
-                  <Text className="font-bold text-navy">Book a Ride</Text>
-                </StyledTouchableOpacity>
-              </View>
-            </View>
+        {/* --- HEADER WITH GRADIENT --- */}
+        <View className="relative">
+          <ImageBackground
+            source={require("../assets/images/ceylon-pattern.jpg")}
+            className="h-64"
+            resizeMode="cover"
+          >
+            <View className="absolute inset-0 bg-navy/80" />
 
-            {/* --- 2. CULTURE & HERITAGE SECTION --- */}
-            <View className="py-8 space-y-4">
-              <Text className="px-6 mb-2 text-2xl font-bold text-gold">
-                Explore Our Culture & Heritage
-              </Text>
-              <FlatList
-                data={heritageSites}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                renderItem={({ item }) => (
-                  <StyledTouchableOpacity
-                    className="w-48 h-64 mx-2 overflow-hidden shadow-lg rounded-xl"
-                    activeOpacity={0.9}
-                  >
-                    <StyledImageBackground
-                      source={item.image}
-                      className="justify-end flex-1"
-                      resizeMode="cover"
-                    >
-                      <View className="p-4 bg-black/50">
-                        <Text className="text-base font-bold text-white">
-                          {item.name}
-                        </Text>
-                        <Text className="text-xs text-gray-200">
-                          {item.description}
-                        </Text>
-                      </View>
-                    </StyledImageBackground>
-                  </StyledTouchableOpacity>
-                )}
-              />
-            </View>
-
-            {/* --- 3. HIRE A RIDE (PICKME) SECTION --- */}
-            <View className="px-6 py-8 space-y-5">
-              <Text className="text-2xl font-bold text-gold">
-                Get Around Easily
-              </Text>
-              <Text className="text-base text-gray-300">
-                Book a tuk or cab instantly with PickMe.
-              </Text>
-
-              {/* Mockup Input Fields */}
-              <View className="space-y-4">
-                <View className="flex-row items-center justify-between p-4 border rounded-lg bg-navy/80 border-gold">
-                  <Text className="text-base text-light-gold">Pickup Location</Text>
-                  <Feather name="chevron-down" size={20} color="#FFD700" />
+            {/* Header Content */}
+            <View className="justify-between flex-1 p-6 pt-12">
+              {/* Top Bar */}
+              <View className="flex-row items-center justify-between">
+                <View>
+                  <Text className="text-sm text-light-gold">Welcome to</Text>
+                  <Text className="text-3xl font-bold text-gold">
+                    Sri Lanka
+                  </Text>
                 </View>
-                <View className="flex-row items-center justify-between p-4 border rounded-lg bg-navy/80 border-gold">
-                  <Text className="text-base text-light-gold">Destination</Text>
-                  <Feather name="chevron-down" size={20} color="#FFD700" />
-                </View>
+                <TouchableOpacity className="items-center justify-center w-12 h-12 rounded-full bg-white/10">
+                  <Feather name="user" size={24} color="#FFD700" />
+                </TouchableOpacity>
               </View>
 
-              <View className="items-center pt-4">
-                <GlowingButton title="Book with PickMe" onPress={() => {}} />
-                <Text className="mt-4 text-xs text-gray-400">
-                  Integration coming soon
+              {/* Search Bar */}
+              <TouchableOpacity className="flex-row items-center p-4 bg-white rounded-2xl">
+                <Feather name="search" size={20} color="#666" />
+                <Text className="flex-1 ml-3 text-base text-gray-400">
+                  Search places, hotels, activities...
                 </Text>
-              </View>
+                <Feather name="sliders" size={20} color="#666" />
+              </TouchableOpacity>
             </View>
+          </ImageBackground>
+        </View>
 
-            {/* --- 4. EMERGENCY & SAFETY SECTION --- */}
-            <View className="px-6 py-8 space-y-4">
-              <Text className="mb-2 text-2xl font-bold text-gold">
-                Emergency Assistance
-              </Text>
-              <FlatList
-                data={emergencyContacts}
-                keyExtractor={(item) => item.id}
-                numColumns={2} // 2x2 Grid
-                scrollEnabled={false} // Disable scroll for this list
-                columnWrapperStyle={{ justifyContent: 'space-between' }}
-                renderItem={({ item }) => (
-                  <StyledTouchableOpacity
-                    className="bg-navy/90 border border-gold/30 rounded-lg p-4 w-[48%] mb-4 items-center justify-center space-y-2 aspect-square"
-                    activeOpacity={0.7}
+        {/* --- QUICK ACTIONS GRID --- */}
+        <View className="px-6 -mt-8">
+          <View className="p-5 bg-white shadow-lg rounded-3xl">
+            <View className="flex-row flex-wrap justify-between">
+              {quickActions.map((action) => (
+                <TouchableOpacity
+                  key={action.id}
+                  className="items-center w-[48%] p-4 mb-4 rounded-2xl"
+                  style={{ backgroundColor: action.bgColor }}
+                  activeOpacity={0.7}
+                >
+                  <View
+                    className="items-center justify-center w-16 h-16 mb-3 rounded-2xl"
+                    style={{ backgroundColor: action.color + "20" }}
                   >
-                    {item.icon === 'hospital-symbol' ? (
-                      <Ionicons name="medkit-outline" size={36} color="#FFD700" />
-                    ) : (
-                      <Feather name={item.icon as any} size={36} color="#FFD700" />
-                    )}
-                    <Text className="text-base font-bold text-center text-gold">
-                      {item.name}
+                    <MaterialCommunityIcons
+                      name={action.icon as any}
+                      size={32}
+                      color={action.color}
+                    />
+                  </View>
+                  <Text className="text-base font-bold text-gray-800">
+                    {action.title}
+                  </Text>
+                  <Text className="text-xs text-gray-500">
+                    {action.subtitle}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </View>
+
+        {/* --- FEATURED DESTINATIONS --- */}
+        <View className="mt-8">
+          <View className="flex-row items-center justify-between px-6 mb-4">
+            <Text className="text-2xl font-bold text-gray-800">
+              Top Destinations
+            </Text>
+            <TouchableOpacity>
+              <Text className="text-base font-semibold text-gold">See All</Text>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 24 }}
+            className="space-x-4"
+          >
+            {heritageSites.map((site) => (
+              <TouchableOpacity
+                key={site.id}
+                className="w-64 mr-4 overflow-hidden bg-white shadow-lg rounded-3xl"
+                activeOpacity={0.9}
+              >
+                <ImageBackground
+                  source={site.image}
+                  className="h-48"
+                  resizeMode="cover"
+                >
+                  <View
+                    className="absolute inset-0 bg-black/60"
+                    style={{
+                      opacity: 0.7,
+                    }}
+                  />
+
+                  {/* Rating Badge */}
+                  <View className="absolute flex-row items-center px-3 py-1 m-3 bg-white rounded-full top-2 right-2">
+                    <Ionicons name="star" size={14} color="#FFD700" />
+                    <Text className="ml-1 text-sm font-bold text-gray-800">
+                      {site.rating}
                     </Text>
-                    <Text className="text-sm text-gray-300">{item.detail}</Text>
-                  </StyledTouchableOpacity>
-                )}
-              />
-            </View>
+                  </View>
 
-            {/* --- 5. FOOTER --- */}
-            <View className="items-center py-6 mt-8 border-t border-gold/50">
-              <Text className="text-xs text-gray-400">
-                © 2025 Discover Sri Lanka
-              </Text>
-            </View>
-
+                  {/* Site Info */}
+                  <View className="absolute bottom-0 left-0 right-0 p-4">
+                    <Text className="text-xl font-bold text-white">
+                      {site.name}
+                    </Text>
+                    <View className="flex-row items-center mt-1">
+                      <Feather name="map-pin" size={14} color="#FFD700" />
+                      <Text className="ml-1 text-sm text-white/90">
+                        {site.location}
+                      </Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            ))}
           </ScrollView>
         </View>
-      </StyledImageBackground>
+
+        {/* --- RIDE BOOKING SECTION --- */}
+        <View className="px-6 mt-8">
+          <View className="p-6 rounded-3xl bg-gold">
+            <View className="flex-row items-center justify-between mb-4">
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-navy">
+                  Need a Ride?
+                </Text>
+                <Text className="mt-1 text-sm text-navy/80">
+                  Book a tuk-tuk or taxi instantly
+                </Text>
+              </View>
+              <View className="items-center justify-center w-16 h-16 rounded-2xl bg-navy/10">
+                <MaterialCommunityIcons name="car" size={32} color="#0A1128" />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              className="flex-row items-center justify-center py-4 bg-navy rounded-2xl"
+              activeOpacity={0.8}
+            >
+              <Text className="text-base font-bold text-gold">
+                Book with PickMe
+              </Text>
+              <Feather
+                name="arrow-right"
+                size={20}
+                color="#FFD700"
+                style={{ marginLeft: 8 }}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* --- EMERGENCY CONTACTS --- */}
+        <View className="px-6 mt-8 mb-8">
+          <Text className="mb-4 text-2xl font-bold text-gray-800">
+            Emergency Services
+          </Text>
+
+          <View className="p-5 bg-white shadow-lg rounded-3xl">
+            {emergencyServices.map((service, index) => (
+              <TouchableOpacity
+                key={service.id}
+                className={`flex-row items-center justify-between py-4 ${
+                  index !== emergencyServices.length - 1
+                    ? "border-b border-gray-100"
+                    : ""
+                }`}
+                activeOpacity={0.7}
+              >
+                <View className="flex-row items-center flex-1">
+                  <View className="items-center justify-center w-12 h-12 mr-4 rounded-2xl bg-red-50">
+                    <Feather
+                      name={service.icon as any}
+                      size={24}
+                      color="#EF4444"
+                    />
+                  </View>
+                  <View>
+                    <Text className="text-base font-bold text-gray-800">
+                      {service.name}
+                    </Text>
+                    <Text className="text-sm text-gray-500">
+                      Tap to call {service.number}
+                    </Text>
+                  </View>
+                </View>
+                <View className="items-center justify-center w-10 h-10 rounded-full bg-red-50">
+                  <Feather name="phone" size={20} color="#EF4444" />
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* --- FOOTER --- */}
+        <View className="items-center px-6 py-8 border-t border-gray-100">
+          <Text className="text-sm text-gray-400">
+            © 2025 Discover Sri Lanka
+          </Text>
+          <Text className="mt-1 text-xs text-gray-400">
+            Your trusted travel companion
+          </Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
