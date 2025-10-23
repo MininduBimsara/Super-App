@@ -1,6 +1,9 @@
-const { getDefaultConfig } = require('expo/metro-config');
-const { withNativeWind } = require('nativewind/metro');
+/**
+ * Metro configuration for React Native + Expo + NativeWind
+ * Works with Expo SDK 54
+ */
 
-const config = getDefaultConfig(__dirname);
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 
-module.exports = withNativeWind(config, { input: './global.css' });
+module.exports = withNativeWind(getDefaultConfig(__dirname));
