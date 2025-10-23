@@ -116,11 +116,11 @@ const GlowingButton = ({ title, onPress }: { title: string; onPress: () => void 
   return (
     <AnimatedView style={animatedStyle}>
       <StyledTouchableOpacity
-        className="bg-gold py-4 px-8 rounded-lg items-center justify-center"
+        className="items-center justify-center px-8 py-4 rounded-lg bg-gold"
         onPress={onPress}
         activeOpacity={0.8}
       >
-        <Text className="text-navy text-base font-bold uppercase tracking-wider">
+        <Text className="text-base font-bold tracking-wider uppercase text-navy">
           {title}
         </Text>
       </StyledTouchableOpacity>
@@ -136,7 +136,7 @@ export default function HomeScreen() {
 
       {/* --- Main Background Pattern --- */}
       <StyledImageBackground
-        source={require('../assets/ceylon-pattern.jpg')} // Your pattern
+        source={require('../assets/images/ceylon-pattern.jpg')} // Your pattern
         resizeMode="cover"
         className="flex-1"
       >
@@ -146,31 +146,31 @@ export default function HomeScreen() {
             
             {/* --- 1. HERO SECTION --- */}
             <View className="h-[40vh] min-h-[300px] justify-center items-center p-6 space-y-4">
-              <Text className="text-5xl font-bold text-gold text-center" style={{ textShadowColor: 'rgba(255, 215, 0, 0.5)', textShadowRadius: 10 }}>
+              <Text className="text-5xl font-bold text-center text-gold" style={{ textShadowColor: 'rgba(255, 215, 0, 0.5)', textShadowRadius: 10 }}>
                 Discover Sri Lanka
               </Text>
-              <Text className="text-lg text-light-gold text-center w-3/4">
+              <Text className="w-3/4 text-lg text-center text-light-gold">
                 Culture, Comfort, and Care — All in One App
               </Text>
-              <View className="flex-row justify-center gap-x-4 mt-4">
+              <View className="flex-row justify-center mt-4 gap-x-4">
                 <StyledTouchableOpacity
-                  className="border-2 border-gold rounded-full py-2 px-5"
+                  className="px-5 py-2 border-2 rounded-full border-gold"
                   activeOpacity={0.7}
                 >
-                  <Text className="text-gold font-semibold">Explore Culture</Text>
+                  <Text className="font-semibold text-gold">Explore Culture</Text>
                 </StyledTouchableOpacity>
                 <StyledTouchableOpacity
-                  className="bg-gold rounded-full py-2 px-6"
+                  className="px-6 py-2 rounded-full bg-gold"
                   activeOpacity={0.7}
                 >
-                  <Text className="text-navy font-bold">Book a Ride</Text>
+                  <Text className="font-bold text-navy">Book a Ride</Text>
                 </StyledTouchableOpacity>
               </View>
             </View>
 
             {/* --- 2. CULTURE & HERITAGE SECTION --- */}
             <View className="py-8 space-y-4">
-              <Text className="text-2xl font-bold text-gold px-6 mb-2">
+              <Text className="px-6 mb-2 text-2xl font-bold text-gold">
                 Explore Our Culture & Heritage
               </Text>
               <FlatList
@@ -181,19 +181,19 @@ export default function HomeScreen() {
                 contentContainerStyle={{ paddingHorizontal: 16 }}
                 renderItem={({ item }) => (
                   <StyledTouchableOpacity
-                    className="w-48 h-64 rounded-xl overflow-hidden shadow-lg mx-2"
+                    className="w-48 h-64 mx-2 overflow-hidden shadow-lg rounded-xl"
                     activeOpacity={0.9}
                   >
                     <StyledImageBackground
                       source={item.image}
-                      className="flex-1 justify-end"
+                      className="justify-end flex-1"
                       resizeMode="cover"
                     >
                       <View className="p-4 bg-black/50">
-                        <Text className="text-white text-base font-bold">
+                        <Text className="text-base font-bold text-white">
                           {item.name}
                         </Text>
-                        <Text className="text-gray-200 text-xs">
+                        <Text className="text-xs text-gray-200">
                           {item.description}
                         </Text>
                       </View>
@@ -204,7 +204,7 @@ export default function HomeScreen() {
             </View>
 
             {/* --- 3. HIRE A RIDE (PICKME) SECTION --- */}
-            <View className="py-8 px-6 space-y-5">
+            <View className="px-6 py-8 space-y-5">
               <Text className="text-2xl font-bold text-gold">
                 Get Around Easily
               </Text>
@@ -214,27 +214,27 @@ export default function HomeScreen() {
 
               {/* Mockup Input Fields */}
               <View className="space-y-4">
-                <View className="bg-navy/80 border border-gold rounded-lg p-4 flex-row justify-between items-center">
-                  <Text className="text-light-gold text-base">Pickup Location</Text>
+                <View className="flex-row items-center justify-between p-4 border rounded-lg bg-navy/80 border-gold">
+                  <Text className="text-base text-light-gold">Pickup Location</Text>
                   <Feather name="chevron-down" size={20} color="#FFD700" />
                 </View>
-                <View className="bg-navy/80 border border-gold rounded-lg p-4 flex-row justify-between items-center">
-                  <Text className="text-light-gold text-base">Destination</Text>
+                <View className="flex-row items-center justify-between p-4 border rounded-lg bg-navy/80 border-gold">
+                  <Text className="text-base text-light-gold">Destination</Text>
                   <Feather name="chevron-down" size={20} color="#FFD700" />
                 </View>
               </View>
 
-              <View className="pt-4 items-center">
+              <View className="items-center pt-4">
                 <GlowingButton title="Book with PickMe" onPress={() => {}} />
-                <Text className="text-gray-400 text-xs mt-4">
+                <Text className="mt-4 text-xs text-gray-400">
                   Integration coming soon
                 </Text>
               </View>
             </View>
 
             {/* --- 4. EMERGENCY & SAFETY SECTION --- */}
-            <View className="py-8 px-6 space-y-4">
-              <Text className="text-2xl font-bold text-gold mb-2">
+            <View className="px-6 py-8 space-y-4">
+              <Text className="mb-2 text-2xl font-bold text-gold">
                 Emergency Assistance
               </Text>
               <FlatList
@@ -253,18 +253,18 @@ export default function HomeScreen() {
                     ) : (
                       <Feather name={item.icon as any} size={36} color="#FFD700" />
                     )}
-                    <Text className="text-gold font-bold text-base text-center">
+                    <Text className="text-base font-bold text-center text-gold">
                       {item.name}
                     </Text>
-                    <Text className="text-gray-300 text-sm">{item.detail}</Text>
+                    <Text className="text-sm text-gray-300">{item.detail}</Text>
                   </StyledTouchableOpacity>
                 )}
               />
             </View>
 
             {/* --- 5. FOOTER --- */}
-            <View className="border-t border-gold/50 mt-8 py-6 items-center">
-              <Text className="text-gray-400 text-xs">
+            <View className="items-center py-6 mt-8 border-t border-gold/50">
+              <Text className="text-xs text-gray-400">
                 © 2025 Discover Sri Lanka
               </Text>
             </View>
