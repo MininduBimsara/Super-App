@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   StatusBar,
+  Linking,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -19,6 +20,7 @@ const quickActions = [
     icon: "car",
     color: "#FFD700",
     bgColor: "#FFF4CC",
+    route: "Transportation", // ✨ Added navigation route
   },
   {
     id: "2",
@@ -27,6 +29,7 @@ const quickActions = [
     icon: "castle",
     color: "#FF6B6B",
     bgColor: "#FFE5E5",
+    route: "Destinations", // ✨ Added navigation route
   },
   {
     id: "3",
@@ -35,14 +38,16 @@ const quickActions = [
     icon: "shield-check",
     color: "#4ECDC4",
     bgColor: "#E0F7F6",
+    route: "Emergency", // ✨ Added navigation route
   },
   {
     id: "4",
-    title: "Hotels",
-    subtitle: "Book Stay",
-    icon: "bed",
+    title: "Support",
+    subtitle: "AI Assistant",
+    icon: "robot",
     color: "#A78BFA",
     bgColor: "#F3F0FF",
+    route: "Support", // ✨ Added navigation route
   },
 ];
 
@@ -72,12 +77,16 @@ const heritageSites = [
 
 const emergencyServices = [
   { id: "1", name: "Police", number: "119", icon: "shield" },
-  { id: "2", name: "Ambulance", number: "1990", icon: "activity" }, // Changed from "ambulance"
-  { id: "3", name: "Fire", number: "110", icon: "alert-circle" }, // Changed from "fire"
+  { id: "2", name: "Ambulance", number: "1990", icon: "activity" },
+  { id: "3", name: "Fire", number: "110", icon: "alert-circle" },
   { id: "4", name: "Tourist Help", number: "1912", icon: "help-circle" },
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: any) {
+  const handleCall = (number: string) => {
+    Linking.openURL(`tel:${number}`);
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       <StatusBar
@@ -98,8 +107,8 @@ export default function HomeScreen() {
             className="h-64"
             resizeMode="cover"
           >
-            {/* Navy background overlay - using hex color instead of custom class */}
-            <View className=" absolute inset-0 bg-[#0A1128]/80" />
+            {/* Navy background overlay */}
+            <View className="absolute inset-0 bg-[#0A1128]/80" />
 
             {/* Header Content */}
             <View className="justify-between flex-1 p-6 pt-12">
@@ -117,7 +126,10 @@ export default function HomeScreen() {
               </View>
 
               {/* Search Bar */}
-              <TouchableOpacity className="flex-row items-center p-4 bg-white rounded-2xl">
+              <TouchableOpacity
+                className="flex-row items-center p-4 bg-white rounded-2xl"
+                onPress={() => navigation.navigate("Destinations")}
+              >
                 <Feather name="search" size={20} color="#666" />
                 <Text className="flex-1 ml-3 text-base text-gray-400">
                   Search places, hotels, activities...
@@ -138,6 +150,7 @@ export default function HomeScreen() {
                   className="items-center w-[48%] p-4 mb-4 rounded-2xl"
                   style={{ backgroundColor: action.bgColor }}
                   activeOpacity={0.7}
+                  onPress={() => navigation.navigate(action.route)} // ✨ Navigate to screen
                 >
                   <View
                     className="items-center justify-center w-16 h-16 mb-3 rounded-2xl"
@@ -167,7 +180,9 @@ export default function HomeScreen() {
             <Text className="text-2xl font-bold text-gray-800">
               Top Destinations
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Destinations")}
+            >
               <Text className="text-base font-semibold text-[#FFD700]">
                 See All
               </Text>
@@ -185,6 +200,7 @@ export default function HomeScreen() {
                 key={site.id}
                 className="w-64 mr-4 overflow-hidden bg-white shadow-lg rounded-3xl"
                 activeOpacity={0.9}
+                onPress={() => navigation.navigate("Destinations")}
               >
                 <ImageBackground
                   source={site.image}
@@ -193,9 +209,7 @@ export default function HomeScreen() {
                 >
                   <View
                     className="absolute inset-0 bg-black/60"
-                    style={{
-                      opacity: 0.7,
-                    }}
+                    style={{ opacity: 0.7 }}
                   />
 
                   {/* Rating Badge */}
@@ -244,6 +258,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               className="flex-row items-center justify-center py-4 bg-[#0A1128] rounded-2xl"
               activeOpacity={0.8}
+              onPress={() => navigation.navigate("Transportation")} // ✨ Navigate to Transportation
             >
               <Text className="text-base font-bold text-[#FFD700]">
                 Book with PickMe
@@ -260,9 +275,16 @@ export default function HomeScreen() {
 
         {/* --- EMERGENCY CONTACTS --- */}
         <View className="px-6 mt-8 mb-8">
-          <Text className="mb-4 text-2xl font-bold text-gray-800">
-            Emergency Services
-          </Text>
+          <View className="flex-row items-center justify-between mb-4">
+            <Text className="text-2xl font-bold text-gray-800">
+              Emergency Services
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Emergency")}>
+              <Text className="text-base font-semibold text-[#FFD700]">
+                View All
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <View className="p-5 bg-white shadow-lg rounded-3xl">
             {emergencyServices.map((service, index) => (
@@ -274,6 +296,7 @@ export default function HomeScreen() {
                     : ""
                 }`}
                 activeOpacity={0.7}
+                onPress={() => handleCall(service.number)}
               >
                 <View className="flex-row items-center flex-1">
                   <View className="items-center justify-center w-12 h-12 mr-4 rounded-2xl bg-red-50">
