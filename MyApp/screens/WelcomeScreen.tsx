@@ -7,11 +7,12 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function WelcomeScreen({ navigation }: any) {
   return (
-    <SafeAreaView className="flex-1 bg-[#0A1128]" edges={["top"]}>
+    <View className="flex-1 bg-[#0A1128]">
       <StatusBar barStyle="light-content" backgroundColor="#0A1128" />
 
       <ImageBackground
@@ -19,81 +20,108 @@ export default function WelcomeScreen({ navigation }: any) {
         className="flex-1"
         resizeMode="cover"
       >
-        {/* Dark Overlay */}
-        <View className="absolute inset-0 bg-[#0A1128]/90" />
-
-        {/* Corner Decorations */}
-        <View className="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-[#FFD700]/50" />
-        <View className="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-[#FFD700]/50" />
-        <View className="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-[#FFD700]/50" />
-        <View className="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-[#FFD700]/50" />
-
-        {/* Content */}
-        <View className="items-center justify-center flex-1 px-6">
-          {/* Header */}
-          <View className="items-center mb-12">
-            <Text className="text-xs tracking-[0.3em] text-[#FFF8DC] font-light mb-6 uppercase">
-              WITNESS THE
-            </Text>
-
-            <Text className="text-7xl font-black text-[#FFD700] tracking-wider mb-6">
-              CEYLON
-            </Text>
-
-            <Text className="text-xs tracking-[0.3em] text-[#FFF8DC] font-light mt-6 uppercase">
-              PEARL OF THE OCEAN
-            </Text>
-          </View>
-
-          {/* Description */}
-          <View className="max-w-md mx-auto mb-12">
-            <Text className="text-base text-center text-[#FFF8DC] leading-6">
-              When the island whispers tales of ancient kingdoms, and nature
-              paints stories across emerald hills and golden shores.
-            </Text>
-          </View>
-
-          {/* Features */}
-          <View className="w-full mb-12 space-y-3">
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 rounded-full bg-[#FFD700] mr-3" />
-              <Text className="text-sm text-[#FFF8DC]">
-                Emergency Support 24/7
-              </Text>
-            </View>
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 rounded-full bg-[#FFD700] mr-3" />
-              <Text className="text-sm text-[#FFF8DC]">
-                Transportation Services
-              </Text>
-            </View>
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 rounded-full bg-[#FFD700] mr-3" />
-              <Text className="text-sm text-[#FFF8DC]">
-                AI Travel Assistant
-              </Text>
-            </View>
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 rounded-full bg-[#FFD700] mr-3" />
-              <Text className="text-sm text-[#FFF8DC]">
-                Discover Hidden Gems
-              </Text>
-            </View>
-          </View>
-
-          {/* CTA Button */}
-          <TouchableOpacity
-            className="bg-[#FFD700] px-8 py-4 rounded-2xl shadow-lg flex-row items-center"
-            onPress={() => navigation.navigate("Home")}
-            activeOpacity={0.8}
+        {/* Gradient Overlay */}
+        <LinearGradient
+          colors={["#0A112800", "#0A1128CC", "#0A1128"]}
+          className="flex-1"
+        >
+          <SafeAreaView
+            className="justify-between flex-1"
+            edges={["top", "bottom"]}
           >
-            <Text className="text-base font-bold text-[#0A1128] mr-2">
-              Start Exploring
-            </Text>
-            <Feather name="arrow-right" size={20} color="#0A1128" />
-          </TouchableOpacity>
-        </View>
+            {/* Top: Logo */}
+            <View className="items-center pt-16">
+              <View className="items-center justify-center w-24 h-24 mb-4 rounded-full bg-[#FFD700]">
+                <MaterialCommunityIcons
+                  name="palm-tree"
+                  size={48}
+                  color="#0A1128"
+                />
+              </View>
+              <Text className="text-xl font-bold text-[#FFD700]">
+                Ceylon Guide
+              </Text>
+            </View>
+
+            {/* Center: Main Message */}
+            <View className="items-center px-8">
+              <Text className="text-5xl font-black text-[#FFD700] mb-6 text-center leading-tight">
+                Your Travel{"\n"}Companion
+              </Text>
+              <Text className="mb-4 text-lg leading-7 text-center text-white/90">
+                Explore Sri Lanka with confidence
+              </Text>
+              <Text className="px-4 text-sm leading-6 text-center text-white/70">
+                Emergency support, transportation, AI assistance, and curated
+                destinations—everything you need in one app
+              </Text>
+            </View>
+
+            {/* Bottom: Action */}
+            <View className="px-8 pb-10">
+              <TouchableOpacity
+                className="bg-[#FFD700] py-5 rounded-3xl shadow-2xl"
+                onPress={() => navigation.navigate("Home")}
+                activeOpacity={0.9}
+              >
+                <Text className="text-center text-xl font-bold text-[#0A1128]">
+                  Start Exploring
+                </Text>
+              </TouchableOpacity>
+
+              <View className="flex-row items-center justify-between px-4 mt-8">
+                <View className="items-center">
+                  <View className="items-center justify-center w-12 h-12 mb-2 rounded-full bg-white/10">
+                    <Feather name="shield" size={22} color="#FFD700" />
+                  </View>
+                  <Text className="text-xs font-medium text-white/70">
+                    Emergency
+                  </Text>
+                </View>
+
+                <View className="items-center">
+                  <View className="items-center justify-center w-12 h-12 mb-2 rounded-full bg-white/10">
+                    <MaterialCommunityIcons
+                      name="map-marker-path"
+                      size={22}
+                      color="#FFD700"
+                    />
+                  </View>
+                  <Text className="text-xs font-medium text-white/70">
+                    Navigate
+                  </Text>
+                </View>
+
+                <View className="items-center">
+                  <View className="items-center justify-center w-12 h-12 mb-2 rounded-full bg-white/10">
+                    <MaterialCommunityIcons
+                      name="chat-processing"
+                      size={22}
+                      color="#FFD700"
+                    />
+                  </View>
+                  <Text className="text-xs font-medium text-white/70">
+                    AI Help
+                  </Text>
+                </View>
+
+                <View className="items-center">
+                  <View className="items-center justify-center w-12 h-12 mb-2 rounded-full bg-white/10">
+                    <MaterialCommunityIcons
+                      name="compass-outline"
+                      size={22}
+                      color="#FFD700"
+                    />
+                  </View>
+                  <Text className="text-xs font-medium text-white/70">
+                    Discover
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }

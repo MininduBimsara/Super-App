@@ -61,7 +61,7 @@ const heritageSites = [
   },
   {
     id: "2",
-    name: "Temple of Tooth",
+    name: "Queens Hotel",
     location: "Kandy",
     rating: 4.9,
     image: require("../assets/images/kandy.jpg"),
@@ -128,7 +128,7 @@ export default function HomeScreen({ navigation }: any) {
               {/* Search Bar */}
               <TouchableOpacity
                 className="flex-row items-center p-4 bg-white rounded-2xl"
-                onPress={() => navigation.navigate("Destinations")}
+                
               >
                 <Feather name="search" size={20} color="#666" />
                 <Text className="flex-1 ml-3 text-base text-gray-400">
@@ -142,30 +142,33 @@ export default function HomeScreen({ navigation }: any) {
 
         {/* --- QUICK ACTIONS GRID --- */}
         <View className="px-6 pt-10 -mt-8">
-          <View className="p-5 bg-white shadow-lg rounded-3xl">
+          <View className="p-6 bg-white border border-gray-100 shadow-2xl rounded-3xl">
+            <Text className="mb-5 text-xl font-bold text-gray-800">
+              Quick Actions
+            </Text>
             <View className="flex-row flex-wrap justify-between">
               {quickActions.map((action) => (
                 <TouchableOpacity
                   key={action.id}
-                  className="items-center w-[48%] p-4 mb-4 rounded-2xl"
+                  className="items-center w-[48%] p-5 mb-4 rounded-2xl border border-gray-100"
                   style={{ backgroundColor: action.bgColor }}
                   activeOpacity={0.7}
-                  onPress={() => navigation.navigate(action.route)} // ✨ Navigate to screen
+                  onPress={() => navigation.navigate(action.route)}
                 >
                   <View
-                    className="items-center justify-center w-16 h-16 mb-3 rounded-2xl"
-                    style={{ backgroundColor: action.color + "20" }}
+                    className="items-center justify-center mb-3 shadow-sm w-14 h-14 rounded-xl"
+                    style={{ backgroundColor: action.color }}
                   >
                     <MaterialCommunityIcons
                       name={action.icon as any}
-                      size={32}
-                      color={action.color}
+                      size={28}
+                      color="#FFFFFF"
                     />
                   </View>
-                  <Text className="text-base font-bold text-gray-800">
+                  <Text className="text-base font-bold text-center text-gray-800">
                     {action.title}
                   </Text>
-                  <Text className="text-xs text-gray-500">
+                  <Text className="mt-1 text-xs text-center text-gray-500">
                     {action.subtitle}
                   </Text>
                 </TouchableOpacity>
